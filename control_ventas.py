@@ -13,8 +13,25 @@ def actualizar_stock_con_compras(ingredientes_df, gastos_df):  #stock de comprar
             # Sumar al stock actual
             ingredientes_df.loc[mask, 'STOCK ACTUAL'] += cantidad_comprada
         else:
-            # Si no existe, lo podemos agregar opcionalmente
-            print(f"⚠️ Ingrediente nuevo detectado en compras: {producto} (no se agregó)")
+            else:
+    costo_unitario = row.get('Precio unitario', 0)
+    costo_total = costo_unitario * cantidad_comprada
+
+    nuevo_ingrediente = {
+        'NOMBRE INGREDIENTE': producto,
+        'UNIDAD DE MEDIDA': '',  # Podés completarlo luego
+        'CANTIDAD COMPRADA': cantidad_comprada,
+        'COSTO POR UNIDAD': costo_unitario,
+        'COSTO TOTAL': costo_total,
+        'PROVEEDOR': row.get('Proveedor', ''),
+        'STOCK INICIAL': cantidad_comprada,
+        'STOCK ACTUAL': cantidad_comprada,
+        'ÚLTIMA COMPRA': row.get('Fecha', '')
+    }
+
+    ingredientes_df = pd.concat([ingredientes_df, pd.DataFrame([nuevo_ingrediente])], ignore_index=True)
+    print(f"✅ Ingrediente nuevo agregado al stock: {producto}")
+
     
     return ingredientes_df
 
@@ -27,7 +44,7 @@ recetas_df = pd.read_excel(archivo, sheet_name="Recetas")
 pedidos_df = pd.read_excel(archivo, sheet_name="Pedidos")
 gastos_df = pd.read_excel(archivo, sheet_name="Gastos")
 
-recetas_df = recetas_df.dropna(subset=["RECETA"])
+recetas_df = recetas_df.dropna(subset=["RECETA"]) #limpia recetas vacías
 # ✅ Actualizar stock con las compras
 ingredientes_df = actualizar_stock_con_compras(ingredientes_df, gastos_df)
 
@@ -107,7 +124,7 @@ def cancelar_ultima_venta():
         pedidos_df.to_excel(writer, sheet_name='Pedidos', index=False)
 
     print("✅ Venta cancelada y stock actualizado.")
-    
+
 # --------------------
 # MENÚ PRINCIPAL
 # --------------------
