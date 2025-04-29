@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 #Sistema de Control de Ventas y Stock para Emprendimiento de Comida Casera Ketchinfy
 
 Este programa lee un archivo Excel donde se registran las recetas, ventas, gastos e ingredientes.  
@@ -12,3 +13,6 @@ Esto permite registrar las compras de los ingredientes, controlar el stock actua
 
 
 Desarrollado en Python con `pandas`, `openpyxl` y `tkinter`.
+=======
+# Ketchinfy
+>>>>>>> 1146e589ef3c24726bff2926ba2df6ce1419737f
